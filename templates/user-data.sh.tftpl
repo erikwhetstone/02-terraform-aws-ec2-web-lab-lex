@@ -1,7 +1,21 @@
 #!/bin/bash
 set -euxo pipefail
 
-dnf install -y nginx
+# A t3.micro has 1 GiB of memory and no swap. dnf can exceed that while it
+# loads repository metadata at first boot and be killed by the kernel. A
+# 1 GiB swap file on the encrypted root volume prevents this at no cost.
+dd if=/dev/zero of=/swapfile bs=1M count=1024 status=none
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+
+# Retry in case a transient repository or memory error interrupts dnf, then
+# fail the script if NGINX is still not installed.
+for attempt in 1 2 3; do
+  dnf install -y nginx && break
+  sleep 15
+done
+rpm -q nginx
 
 cat > /usr/share/nginx/html/index.html <<'HTML'
 <!DOCTYPE html>
