@@ -25,6 +25,15 @@
 Lab 1 output values reach Lab 2 as Terraform variables that the learner
 copies into the Lab 2 workspace. The two workspaces do not share state.
 
+## Resources AWS may add outside Terraform
+
+If the account uses Amazon GuardDuty Runtime Monitoring with automated EC2
+agent management, GuardDuty adds a `guardduty-data` VPC endpoint and a
+`GuardDutyManagedSecurityGroup-<vpc-id>` security group to the Lab 1 VPC
+when the instance launches. Lab 2 does not create or track them. They must
+be removed before Lab 1 can be destroyed; see the
+[cleanup guide](cleanup-guide.md).
+
 ## Traffic flows
 
 | Flow | Path | Allowed by |

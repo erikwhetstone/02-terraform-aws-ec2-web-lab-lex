@@ -1,6 +1,6 @@
 # Costs
 
-Prices are AWS list prices for us-east-1, checked on 2026-11-09, before
+Prices are AWS list prices for us-east-1, checked on 2026-11-10, before
 Free Tier or credits. Prices change and vary by Region. Confirm them in
 the AWS Pricing Calculator before you rely on them.
 
@@ -53,6 +53,10 @@ Stopping is not cleanup. Destroy the deployment.
 - Free Tier hours are shared across all instances and Regions in the account.
 
 This document uses list prices so the estimate holds for any learner.
+
+Account-level security services, such as Amazon GuardDuty Runtime
+Monitoring, bill separately for the instances they monitor. They are not
+included in this estimate.
 
 ## Required cleanup
 

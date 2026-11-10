@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-10
+
 ### Added
 
 - Amazon Linux 2023 `t3.micro` instance running NGINX in a Lab 1 public subnet
@@ -22,3 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and limits destructive actions to resources tagged `Purpose = Training`
 - README, SECURITY, COSTS, TROUBLESHOOTING, architecture, concepts,
   deployment, and cleanup documentation
+- Cleanup guidance for the GuardDuty Runtime Monitoring VPC endpoint that
+  blocks the Lab 1 destroy in accounts using automated EC2 agent management
+
+[Unreleased]: https://github.com/lshillingford/02-terraform-aws-ec2-web-lab/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/lshillingford/02-terraform-aws-ec2-web-lab/releases/tag/v1.0.0

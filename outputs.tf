@@ -1,5 +1,5 @@
 output "website_url" {
-  description = "Open this URL from the network in allowed_http_cidr. NGINX can take 1 to 2 minutes after apply to finish installing."
+  description = "Open this URL from the network in allowed_http_cidr. First boot can take up to 5 minutes before NGINX answers."
   value       = "http://${aws_instance.web.public_ip}"
 }
 

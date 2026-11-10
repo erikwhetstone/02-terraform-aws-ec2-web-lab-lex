@@ -45,6 +45,10 @@ website is not encrypted; see the simplifications below.
 - The first-boot script writes to `/var/log/cloud-init-output.log`, which
   can be read without SSH through the EC2 console output.
 
+If your account uses Amazon GuardDuty Runtime Monitoring, GuardDuty also
+monitors the instance and adds its own VPC endpoint to the Lab 1 VPC. See
+the [cleanup guide](docs/cleanup-guide.md).
+
 No VPC Flow Logs, NGINX log shipping, or paid logging is enabled, to keep
 the lab at or near list-price zero beyond the instance itself.
 

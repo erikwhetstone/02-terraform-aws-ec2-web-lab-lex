@@ -62,7 +62,8 @@ Follow these steps in order. Each step is a single action.
 ## Apply
 
 17. If every check passes, choose **Confirm & apply**, then **Confirm plan**.
-18. Wait 2 to 3 minutes after the apply completes for NGINX to install.
+18. Wait up to 5 minutes after the apply completes. First boot creates a
+    swap file and installs NGINX before the page is served.
 
 ## Validate
 
@@ -96,6 +97,8 @@ training account. Replace the values in angle brackets with your outputs.
     aws ec2 describe-tags --filters Name=key,Values=DeploymentId Name=value,Values=<deployment_id> --query 'Tags[].[ResourceType,ResourceId]' --output text | sort -u
     ```
     Expect an instance, a volume, a security group, and two security group rules.
+    The network interface is not tagged. If the instance was replaced, the old
+    instance and volume can still appear for up to an hour after termination.
 
 ## Confirm a clean re-plan
 

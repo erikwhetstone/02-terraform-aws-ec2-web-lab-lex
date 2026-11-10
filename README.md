@@ -175,7 +175,7 @@ review checklist is in [docs/deployment-guide.md](docs/deployment-guide.md).
 ## 12. Apply
 
 Confirm the plan only after the checklist passes. Auto Apply stays off.
-The instance is ready when NGINX finishes installing, usually 2 to 3 minutes after apply.
+The instance is ready when NGINX finishes installing, which can take up to 5 minutes after apply.
 
 ## 13. Validate
 

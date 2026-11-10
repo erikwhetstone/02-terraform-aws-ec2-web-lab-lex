@@ -133,10 +133,17 @@ Check these in order:
 1. `allowed_http_cidr` matches the address your browser uses. VPNs and
    proxies change it. Compare with https://checkip.amazonaws.com in the
    same browser.
-2. Wait 3 minutes after apply. NGINX installs on first boot.
+2. Wait up to 5 minutes after apply. NGINX installs on first boot.
 3. Read the boot log without SSH:
    `aws ec2 get-console-output --instance-id <instance_id> --latest --output text | grep -iE 'nginx|dnf|error|fail|killed'`
 4. Confirm the URL starts with `http://`, not `https://`. Lab 2 serves HTTP only.
+
+### The Instance screenshot shows only the boot splash
+
+Amazon Linux 2023 sends boot output to the serial console, not the screen,
+so the EC2 **Instance screenshot** can stay on the boot logo even when the
+instance is fully running. Use **System log** in the console, or
+`aws ec2 get-console-output`, instead.
 
 ### `dnf install` fails in the boot log
 
@@ -175,6 +182,17 @@ that plan shows a full create. Discard it.
 **Cause:** The Lab 2 instance's network interface is still in a Lab 1 subnet.
 
 **Fix:** Destroy Lab 2 first, then queue a new Lab 1 destroy plan.
+
+### Lab 1 private subnets stay in Deleting for many minutes
+
+**Cause:** Your account has Amazon GuardDuty Runtime Monitoring with
+automated agent management for EC2. When the Lab 2 instance launched,
+GuardDuty created its own VPC endpoint in the Lab 1 VPC, with network
+interfaces in the private subnets and a security group named
+`GuardDutyManagedSecurityGroup-<vpc-id>`. Terraform does not manage these,
+and AWS will not delete a subnet or VPC that still contains them.
+
+**Fix:** Follow the GuardDuty section of the [cleanup guide](docs/cleanup-guide.md).
 
 ### Partial destroy
 
