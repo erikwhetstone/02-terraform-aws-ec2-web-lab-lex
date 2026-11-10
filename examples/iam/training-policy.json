@@ -1,0 +1,112 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadNetworkAndInstanceState",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeVpcs",
+        "ec2:DescribeVpcAttribute",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeRouteTables",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSecurityGroupRules",
+        "ec2:DescribeInstances",
+        "ec2:DescribeInstanceAttribute",
+        "ec2:DescribeInstanceCreditSpecifications",
+        "ec2:DescribeInstanceTypes",
+        "ec2:DescribeImages",
+        "ec2:DescribeVolumes",
+        "ec2:DescribeNetworkInterfaces",
+        "ec2:DescribeTags"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ReadAmazonLinuxAmiParameter",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:*::parameter/aws/service/ami-amazon-linux-latest/*"
+    },
+    {
+      "Sid": "ManageLabSecurityGroupRules",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateSecurityGroup",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:AuthorizeSecurityGroupEgress",
+        "ec2:RevokeSecurityGroupIngress",
+        "ec2:RevokeSecurityGroupEgress",
+        "ec2:ModifySecurityGroupRules"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "DeleteOnlyTrainingSecurityGroups",
+      "Effect": "Allow",
+      "Action": "ec2:DeleteSecurityGroup",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/Purpose": "Training"
+        }
+      }
+    },
+    {
+      "Sid": "LaunchOnlyConstrainedInstances",
+      "Effect": "Allow",
+      "Action": "ec2:RunInstances",
+      "Resource": "*",
+      "Condition": {
+        "StringEqualsIfExists": {
+          "ec2:InstanceType": "t3.micro",
+          "ec2:MetadataHttpTokens": "required"
+        },
+        "BoolIfExists": {
+          "ec2:Encrypted": "true"
+        }
+      }
+    },
+    {
+      "Sid": "TerminateOnlyTrainingInstances",
+      "Effect": "Allow",
+      "Action": "ec2:TerminateInstances",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/Purpose": "Training"
+        }
+      }
+    },
+    {
+      "Sid": "TagResourcesAtCreation",
+      "Effect": "Allow",
+      "Action": "ec2:CreateTags",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "ec2:CreateAction": [
+            "RunInstances",
+            "CreateSecurityGroup",
+            "AuthorizeSecurityGroupIngress",
+            "AuthorizeSecurityGroupEgress"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "RetagOnlyTrainingResources",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateTags",
+        "ec2:DeleteTags"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:ResourceTag/Purpose": "Training"
+        }
+      }
+    }
+  ]
+}

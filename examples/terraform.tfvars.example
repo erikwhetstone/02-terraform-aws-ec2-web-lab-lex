@@ -1,0 +1,15 @@
+# Example Lab 2 inputs. Enter each value in the HCP Terraform workspace as a
+# Terraform variable, not an Environment variable. Never commit a real
+# terraform.tfvars file; the repository .gitignore blocks *.tfvars.
+#
+# vpc_id and public_subnet_id come from the Lab 1 workspace outputs.
+# allowed_http_cidr is your own public IP address followed by /32.
+
+aws_region              = "us-east-1"
+expected_aws_account_id = "REPLACE_WITH_YOUR_12_DIGIT_ACCOUNT_ID"
+owner_name              = "Jane-Learner"
+deployment_id           = "jane-ec2-web-01"
+expiration_date         = "2026-12-31"
+vpc_id                  = "vpc-REPLACE_WITH_LAB1_VPC_ID_OUTPUT"
+public_subnet_id        = "subnet-REPLACE_WITH_ONE_LAB1_PUBLIC_SUBNET_ID"
+allowed_http_cidr       = "203.0.113.10/32"
