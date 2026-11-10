@@ -1,0 +1,100 @@
+#!/bin/bash
+set -euxo pipefail
+
+dnf install -y nginx
+
+cat > /usr/share/nginx/html/index.html <<'HTML'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terraform Deployment Successful</title>
+
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.card {
+    width: 650px;
+    max-width: 85%;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-top: 5px solid #22c55e;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.35);
+}
+
+.check {
+    color: #22c55e;
+    font-size: 48px;
+}
+
+h1 {
+    color: #ffffff;
+}
+
+p {
+    line-height: 1.6;
+}
+
+.details {
+    background: #0f172a;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 25px;
+}
+
+.label {
+    color: #60a5fa;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="check">&#10003;</div>
+
+<h1>Terraform Deployment Successful</h1>
+
+<p>
+Congratulations! Your Terraform configuration successfully deployed
+an Amazon EC2 web server in your AWS training account.
+</p>
+
+<div class="details">
+<p><span class="label">Deployed by:</span> ${owner_name}</p>
+<p><span class="label">Deployment ID:</span> ${deployment_id}</p>
+<p><span class="label">Lab:</span> ${lab_name}</p>
+<p><span class="label">AWS Region:</span> ${aws_region}</p>
+<p><span class="label">Expires On:</span> ${expiration_date}</p>
+<p><span class="label">Operating System:</span> Amazon Linux 2023</p>
+<p><span class="label">Web Server:</span> NGINX</p>
+<p><span class="label">Infrastructure:</span> Terraform</p>
+</div>
+
+<p>
+If you can see this page, Terraform successfully created the EC2
+instance and security group, the instance obtained network connectivity,
+the bootstrap process ran successfully, and NGINX is serving the website.
+</p>
+
+</div>
+
+</body>
+</html>
+HTML
+
+systemctl enable --now nginx
